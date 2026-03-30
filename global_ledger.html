@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Transportation - Global Ledger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadGlobalBlockchain()">
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="firewall_login.html">Cognitive Firewall Login</a>
+        <a class="active" href="global_ledger.html">Global Blockchain</a>
+        <a href="blocked_ledger.html">Blocked Threats Log</a>
+    </div>
+
+    <div class="container">
+        <h2>Global Authorized Blockchain Ledger</h2>
+        <p>This decentralized web3 database displays all historically approved, SAFE transportation bookings across the entire system infrastructure.</p>
+        
+        <button type="button" onclick="loadGlobalBlockchain()" style="background-color: #28a745; width: auto; margin-bottom: 20px;">Refresh Global Chain</button>
+        <p id="ledgerCount" style="font-weight: bold; color: green;">Total Safe Records: 0</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Transaction Type</th>
+                    <th>Device/Location</th>
+                    <th>Immutable Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="blockchainTableBody">
+                <tr><td colspan="4" style="text-align: center;">Executing Smart Contract Request...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadGlobalBlockchain() {
+            const tbody = document.getElementById('blockchainTableBody');
+            const countText = document.getElementById('ledgerCount');
+            
+            try {
+                const response = await fetch('http://127.0.0.1:8000/blockchain/global');
+                const result = await response.json();
+                
+                countText.innerText = `Total Safe Records: ${result.count}`;
+                
+                if (result.count === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No transactions found in genesis block.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                result.chain.forEach(record => {
+                    const row = document.createElement('tr');
+                    let timeStr = new Date(record.timestamp * 1000).toLocaleString();
+                    row.innerHTML = `
+                        <td><b>${record.user_id}</b></td>
+                        <td style="color: #0056b3;"><b>${record.type}</b></td>
+                        <td>Loc: ${record.location_id || 'N/A'}, Dev: ${record.device_id || 'N/A'}</td>
+                        <td>${timeStr}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="error">Error connecting to ETH network node. Check backend.</td></tr>`;
+            }
+        }
+    </script>
+</body>
+</html>

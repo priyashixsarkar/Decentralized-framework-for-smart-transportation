@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Transportation - Blocked Threats</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Red theme overrides for the danger zone */
+        .container {
+            border-top: 5px solid #d9534f;
+        }
+        h2 { color: #d9534f; }
+        table th { background-color: #f2dede; color: #a94442; border-color: #ebccd1; }
+    </style>
+</head>
+<body onload="loadBlockedBlockchain()">
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="firewall_login.html">Cognitive Firewall Login</a>
+        <a href="global_ledger.html">Global Blockchain</a>
+        <a class="active" href="blocked_ledger.html" style="background-color: #d9534f; color: white;">Blocked Threats Log</a>
+    </div>
+
+    <div class="container">
+        <h2>⚠️ Blocked Transgressions Blockchain</h2>
+        <p>This immutable ledger stores the permanent record of malicious actors and hackers explicitly isolated by the Cognitive Firewall.</p>
+        
+        <button type="button" onclick="loadBlockedBlockchain()" style="background-color: #c9302c; width: auto; margin-bottom: 20px;">Refresh Quarantine Chain</button>
+        <p id="blockedCount" style="font-weight: bold; color: red;">Total Critical Threats Captured: 0</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Malicious User ID</th>
+                    <th>Violation Category</th>
+                    <th>Compromised Vector</th>
+                    <th>Incident Timestamp</th>
+                </tr>
+            </thead>
+            <tbody id="blockedTableBody">
+                <tr><td colspan="4" style="text-align: center;">Executing Smart Contract Request...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadBlockedBlockchain() {
+            const tbody = document.getElementById('blockedTableBody');
+            const countText = document.getElementById('blockedCount');
+            
+            try {
+                const response = await fetch('http://127.0.0.1:8000/blockchain/blocked');
+                const result = await response.json();
+                
+                countText.innerText = `Total Critical Threats Captured: ${result.count}`;
+                
+                if (result.count === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No malicious anomalies intercepted yet.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                result.chain.forEach(record => {
+                    const row = document.createElement('tr');
+                    let timeStr = new Date(record.timestamp * 1000).toLocaleString();
+                    row.innerHTML = `
+                        <td style="color: #c9302c;"><b>${record.user_id}</b></td>
+                        <td style="color: #c9302c;"><b>${record.type}</b></td>
+                        <td>Loc: ${record.location_id || 'N/A'}, Dev: ${record.device_id || 'N/A'}, Fails: ${record.failed_attempts || 0}</td>
+                        <td style="color: #888;">${timeStr}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="error">Security Analytics Disconnected. Is Python running?</td></tr>`;
+            }
+        }
+    </script>
+</body>
+</html>

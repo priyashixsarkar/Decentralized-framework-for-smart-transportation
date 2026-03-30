@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Transportation - Firewall Gateway</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a class="active" href="firewall_login.html">Cognitive Firewall Login</a>
+        <a href="global_ledger.html">Global Blockchain</a>
+        <a href="blocked_ledger.html">Blocked Threats Log</a>
+    </div>
+
+    <div class="container">
+        <h2>Cognitive Firewall Security Node</h2>
+        <p>Input behavioral transaction data to test the Random Forest Model.</p>
+        
+        <form id="loginForm">
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;"><label>User ID</label><input type="text" id="user_id" value="user_777" required></div>
+                <div class="form-group" style="flex: 1;"><label>Login Hour (0-23)</label><input type="number" id="login_hour" value="10" required></div>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;"><label>Failed Attempts</label><input type="number" id="failed_attempts" value="0" required></div>
+                <div class="form-group" style="flex: 1;"><label>Device ID</label><input type="number" id="device_id" value="4" required></div>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;"><label>Location ID</label><input type="number" id="location_id" value="12" required></div>
+                <div class="form-group" style="flex: 1;"><label>Login Freq (Per day)</label><input type="number" id="login_frequency" value="2" required></div>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;"><label>Time Spent (Sec)</label><input type="number" id="time_spent" value="120" required></div>
+                <div class="form-group" style="flex: 1;"><label>Transaction Amount ($)</label><input type="number" id="transaction_amount" value="350" required></div>
+            </div>
+
+            <button type="submit">Execute Firewall Scan & Initiate Login</button>
+        </form>
+
+        <div id="resultBox">
+            <i>Awaiting system execution...</i>
+        </div>
+    </div>
+
+    <script>
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultBox = document.getElementById('resultBox');
+            
+            const payload = {
+                user_id: document.getElementById('user_id').value,
+                login_hour: parseInt(document.getElementById('login_hour').value),
+                login_frequency: parseInt(document.getElementById('login_frequency').value),
+                location_id: parseInt(document.getElementById('location_id').value),
+                device_id: parseInt(document.getElementById('device_id').value),
+                transaction_amount: parseFloat(document.getElementById('transaction_amount').value),
+                time_spent: parseFloat(document.getElementById('time_spent').value),
+                failed_attempts: parseInt(document.getElementById('failed_attempts').value)
+            };
+
+            resultBox.innerHTML = "<p>⚙️ <b>Firewall Triggered!</b> Handing telemetry to AI Model...</p>";
+            await sleep(600);
+            resultBox.innerHTML += "<p>🔍 <i>Analyzing Location, Device, and Request Parameters...</i></p>";
+            await sleep(800);
+            resultBox.innerHTML += "<p>⚖️ <i>Running Random Forest... Computing Malicious Risk Scenario...</i></p>";
+            await sleep(1000);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultBox.innerHTML += `
+                        <hr style="margin: 10px 0;">
+                        <p class="success">✅ VERDICT SAFE: ${data.message}</p>
+                        <p><b>Blockchain:</b> ${data.blockchain_status}</p>
+                    `;
+                } else {
+                    resultBox.innerHTML += `
+                        <hr style="margin: 10px 0;">
+                        <p class="error">🚨 VERDICT SUSPICIOUS: ${data.detail}</p>
+                        <p><b>Action:</b> Malicious user IP blocked. Threat logged to security blockchain.</p>
+                    `;
+                }
+
+            } catch (error) {
+                resultBox.innerHTML = `<p class="error">Backend connection completely failed! Is main.py running?</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
