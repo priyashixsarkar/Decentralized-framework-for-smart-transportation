@@ -1,0 +1,326 @@
+{
+    "global": [
+        {
+            "type": "USER_AUTHENTICATED",
+            "location_id": 14,
+            "device_id": 2,
+            "user_id": "auth_user_X7",
+            "timestamp": 1775750159.5928335,
+            "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "hash": "f1b79065bdb85c1a961a03a24965a5655149eaaa8c28e019db69b37acf5ffe4e"
+        },
+        {
+            "type": "USER_LOGIN_SUCCESS",
+            "location_id": 12,
+            "device_id": 11,
+            "timestamp": 1775750381.8984704,
+            "user_id": "aabbb"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Origin_Hub",
+            "destination": "",
+            "amount": 150.0,
+            "timestamp": 1775796658.9774733,
+            "user_id": ""
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Origin_Hub",
+            "destination": "jjkjljjkm",
+            "amount": 150.0,
+            "timestamp": 1775796673.1583905,
+            "user_id": "priyashi"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Origin_Hub",
+            "destination": "jnjk",
+            "amount": 150.0,
+            "timestamp": 1775797118.9223676,
+            "user_id": "priyashi"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Global Transit Hub",
+            "destination": "jjkjljjkm",
+            "amount": 150.0,
+            "timestamp": 1775797473.0220304,
+            "user_id": "priyahsi"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "amount": 85.5,
+            "timestamp": 1775798123.7693646,
+            "user_id": "priya"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "amount": 85.5,
+            "timestamp": 1775798704.9638145,
+            "user_id": "priyahsi"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "amount": 85.5,
+            "timestamp": 1775812195.98112,
+            "user_id": "priya1"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "amount": 85.5,
+            "timestamp": 1775812319.195936,
+            "user_id": "priya1"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Global Transit Hub",
+            "destination": "jnjk",
+            "amount": 85.5,
+            "timestamp": 1775812357.9987628,
+            "user_id": "priya1"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "jnjk",
+            "amount": 85.5,
+            "timestamp": 1775812950.9684572,
+            "user_id": "priya1"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "amount": 85.5,
+            "timestamp": 1775813247.616509,
+            "user_id": "priya1"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "kolkata",
+            "destination": "siliguri",
+            "date": "2026-04-12",
+            "amount": 85.5,
+            "timestamp": 1775816767.7762873,
+            "user_id": "ab12"
+        },
+        {
+            "type": "TICKET_BOOKING",
+            "source": "Global Transit Hub",
+            "destination": "jjkjljjkm",
+            "date": "2025-03-11",
+            "amount": 85.5,
+            "timestamp": 1775816830.8364384,
+            "user_id": "ccc12"
+        }
+    ],
+    "users": {
+        "auth_user_X7": [
+            {
+                "type": "USER_AUTHENTICATED",
+                "location_id": 14,
+                "device_id": 2,
+                "user_id": "auth_user_X7",
+                "timestamp": 1775750159.5928335,
+                "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                "hash": "f1b79065bdb85c1a961a03a24965a5655149eaaa8c28e019db69b37acf5ffe4e"
+            }
+        ],
+        "aabbb": [
+            {
+                "type": "USER_LOGIN_SUCCESS",
+                "location_id": 12,
+                "device_id": 11,
+                "timestamp": 1775750381.8984704,
+                "user_id": "aabbb"
+            }
+        ],
+        "": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Origin_Hub",
+                "destination": "",
+                "amount": 150.0,
+                "timestamp": 1775796658.9774733,
+                "user_id": ""
+            }
+        ],
+        "priyashi": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Origin_Hub",
+                "destination": "jjkjljjkm",
+                "amount": 150.0,
+                "timestamp": 1775796673.1583905,
+                "user_id": "priyashi"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Origin_Hub",
+                "destination": "jnjk",
+                "amount": 150.0,
+                "timestamp": 1775797118.9223676,
+                "user_id": "priyashi"
+            }
+        ],
+        "priyahsi": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Global Transit Hub",
+                "destination": "jjkjljjkm",
+                "amount": 150.0,
+                "timestamp": 1775797473.0220304,
+                "user_id": "priyahsi"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "amount": 85.5,
+                "timestamp": 1775798704.9638145,
+                "user_id": "priyahsi"
+            }
+        ],
+        "priya": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "amount": 85.5,
+                "timestamp": 1775798123.7693646,
+                "user_id": "priya"
+            }
+        ],
+        "priya1": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "amount": 85.5,
+                "timestamp": 1775812195.98112,
+                "user_id": "priya1"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "amount": 85.5,
+                "timestamp": 1775812319.195936,
+                "user_id": "priya1"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Global Transit Hub",
+                "destination": "jnjk",
+                "amount": 85.5,
+                "timestamp": 1775812357.9987628,
+                "user_id": "priya1"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "jnjk",
+                "amount": 85.5,
+                "timestamp": 1775812950.9684572,
+                "user_id": "priya1"
+            },
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "amount": 85.5,
+                "timestamp": 1775813247.616509,
+                "user_id": "priya1"
+            }
+        ],
+        "ab12": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "kolkata",
+                "destination": "siliguri",
+                "date": "2026-04-12",
+                "amount": 85.5,
+                "timestamp": 1775816767.7762873,
+                "user_id": "ab12"
+            }
+        ],
+        "ccc12": [
+            {
+                "type": "TICKET_BOOKING",
+                "source": "Global Transit Hub",
+                "destination": "jjkjljjkm",
+                "date": "2025-03-11",
+                "amount": 85.5,
+                "timestamp": 1775816830.8364384,
+                "user_id": "ccc12"
+            }
+        ]
+    },
+    "blocked": [
+        {
+            "type": "MALICIOUS_LOGIN_BLOCKED",
+            "location_id": 3,
+            "device_id": 9,
+            "user_id": "hacker_666",
+            "timestamp": 1775750159.593337,
+            "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "hash": "be3a08710064ab8302873e37e84cc225a20bffb511572c9c31c3da27c03508b8"
+        },
+        {
+            "reason": "AI Cognitive Threat (or Deterministic Rule Violation)",
+            "risk_score": 99.0,
+            "user_id": "priya1",
+            "timestamp": 1775812290.2898555
+        },
+        {
+            "reason": "Brute Force Attack / Multiple Auth Failures",
+            "risk_score": 99.9,
+            "user_id": "srijita12",
+            "timestamp": 1775813412.360984
+        },
+        {
+            "reason": "AI Cognitive Threat (or Deterministic Rule Violation)",
+            "risk_score": 91.0,
+            "user_id": "srijita12",
+            "timestamp": 1775813437.283592
+        },
+        {
+            "reason": "AI Cognitive Threat (or Deterministic Rule Violation)",
+            "risk_score": 91.0,
+            "user_id": "srijita12",
+            "timestamp": 1775813463.3770711
+        },
+        {
+            "reason": "AI Cognitive Threat (or Deterministic Rule Violation)",
+            "risk_score": 99.0,
+            "user_id": "ccc12",
+            "timestamp": 1775816867.3162725
+        }
+    ],
+    "identities": {
+        "priya1": {
+            "password": "12345678",
+            "timestamp": 1775815484.3481896,
+            "status": "Verified"
+        },
+        "ab12": {
+            "password": "12345678",
+            "timestamp": 1775816744.145066,
+            "status": "Verified"
+        },
+        "ccc12": {
+            "password": "12345678",
+            "timestamp": 1775816809.843165,
+            "status": "Verified"
+        }
+    }
+}

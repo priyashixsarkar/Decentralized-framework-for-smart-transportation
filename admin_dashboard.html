@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unified Admin Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; background: #050505; color: white; margin: 0; min-height: 100vh; padding: 40px;
+            background-image: linear-gradient(to bottom, #000, #0a0a0a);
+        }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; padding: 30px 50px;
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px); border-radius: 100px; max-width: 1700px; margin: 0 auto 60px auto;
+        }
+
+        .user-badge { font-family: 'Space Grotesk', sans-serif; background: linear-gradient(90deg, #ef4444, #7C3AED); padding: 18px 30px; border-radius: 100px; font-weight: 700; font-size: 24px; letter-spacing: 1px;}
+        
+        .logout-btn { background: transparent; color: #A1A1AA; border: 1px solid #555; padding: 18px 40px; border-radius: 100px; cursor: pointer; font-weight: 600; font-size: 22px; transition: 0.3s; text-decoration: none;}
+        .logout-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1800px; margin: 0 auto; }
+
+        .dashboard-panel {
+            background: rgba(15, 15, 20, 0.8); backdrop-filter: blur(24px); border-radius: 30px; padding: 50px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            border-top: 4px solid transparent; height: 75vh; display: flex; flex-direction: column;
+        }
+
+        .panel-safe { border-top-color: #06B6D4; }
+        .panel-threat { border-top-color: #ef4444; }
+
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 42px; margin-top: 0; display: flex; justify-content: space-between; align-items: center;}
+        
+        .feed-container { flex: 1; overflow-y: auto; padding-right: 20px; margin-top: 30px; }
+        
+        /* Blockchain Card Styling */
+        .block-card { background: rgba(0,0,0,0.6); border-radius: 16px; padding: 35px; margin-bottom: 30px; border-left: 8px solid #555; transition: 0.2s;}
+        .block-card:hover { transform: translateX(5px); }
+        
+        /* Safe styling */
+        .panel-safe .block-card { border-left-color: #06B6D4; }
+        /* Threat styling */
+        .panel-threat .block-card { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+
+        .hash-string { font-family: 'Courier New', monospace; font-size: 16px; color: #A1A1AA; word-break: break-all; margin-top: 20px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px;}
+        
+        .info-row { font-size: 26px; font-weight: 600; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;}
+        .threat-reason { color: #ef4444; font-weight: 800; font-size: 24px; margin-top: 25px; display: flex; align-items: center; gap: 15px;}
+        
+        .badge-update { color:#7C3AED; font-weight:800; font-size:20px; }
+        .badge-new { color:#06B6D4; font-weight:800; font-size:20px; }
+        .badge-risk { background: rgba(239, 68, 68, 0.2); padding: 8px 20px; border-radius: 100px; color: #ef4444; font-size: 20px;}
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px;}
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700;">Global Transit Network</div>
+        <div style="display:flex; align-items:center; gap:40px;">
+            <div class="user-badge">🛡️ Root Control Active</div>
+            <a href="#" onclick="logoutAdmin()" class="logout-btn">Terminate Session</a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- SAFE BLOCKCHAIN FEED -->
+        <div class="dashboard-panel panel-safe">
+            <h2>
+                <span style="color: #06B6D4;">Global Safe Ledger</span>
+                <span style="font-size: 20px; color:#A1A1AA; background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 100px;">Auto-Syncing...</span>
+            </h2>
+            <p style="color:#A1A1AA; font-size: 22px; margin-top: 0px;">World-wide cryptographically verified human transactions.</p>
+            
+            <div class="feed-container" id="safeFeed">
+                <div style="text-align:center; color:#555; margin-top:50px; font-size: 28px;">Fetching Global Nodes...</div>
+            </div>
+        </div>
+
+        <!-- THREAT QUARANTINE FEED -->
+        <div class="dashboard-panel panel-threat">
+            <h2>
+                <span style="color: #ef4444;">Threat Quarantine Ledger</span>
+                <span style="font-size: 20px; color:#ef4444; background: rgba(239,68,68,0.1); padding: 8px 20px; border-radius: 100px;">AI Watchdog Active</span>
+            </h2>
+            <p style="color:#A1A1AA; font-size: 22px; margin-top: 0px;">Malicious entities flagged by the AI Firewall isolated here.</p>
+            
+            <div class="feed-container" id="threatFeed">
+                <div style="text-align:center; color:#555; margin-top:50px; font-size: 28px;">Fetching Quarantine Nodes...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Security Lock
+        if (!localStorage.getItem("AdminSession")) { window.location.href = "admin_login.html"; }
+
+        function logoutAdmin() {
+            localStorage.removeItem("AdminSession");
+            window.location.href = "index.html";
+        }
+
+        async function fetchSafeLedger() {
+            const feed = document.getElementById("safeFeed");
+            try {
+                const response = await fetch('http://127.0.0.1:8000/blockchain/global');
+                const data = await response.json();
+                
+                if (data.chain.length === 0) {
+                    feed.innerHTML = `<div style="text-align:center; color:#555; padding: 40px; font-size:28px;">No safe transactions on network.</div>`;
+                    return;
+                }
+
+                feed.innerHTML = data.chain.reverse().map(block => {
+                    const isUpdate = block.type === "TICKET_UPDATED";
+                    const badgeClass = isUpdate ? "badge-update" : "badge-new";
+                    const badgeText = isUpdate ? "🔄 ROOT_MODIFIED" : "🎫 GENESIS_TICKET";
+
+                    return `
+                        <div class="block-card">
+                            <div style="display:flex; justify-content:space-between; align-items: center;">
+                                <span class="${badgeClass}">${badgeText}</span>
+                                <span style="color:#A1A1AA; font-size:18px; border: 1px solid #555; padding: 10px 20px; border-radius: 100px;">User: ${block.user_id}</span>
+                            </div>
+                            
+                            <div class="hash-string">🔹 SHA-256 Hash:<br>${block.hash || 'VIRTUAL_NODE_HASH_AWAITING_SYNC_' + Date.now()}</div>
+                            ${isUpdate ? `<div class="hash-string" style="color:#A78BFA; border-color:rgba(124,58,237,0.3);">🔸 Linked Parent Block:<br>${block.linked_hash}</div>` : ''}
+                            
+                            <div class="info-row">
+                                <span style="color:#FFF;">${block.source || "Origin"} ➔ ${block.destination || "Target"}</span>
+                                <span style="color:#06B6D4;">$${block.amount || "0.00"}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) { feed.innerHTML = `<div style="color:#ef4444; font-size:20px; font-weight:bold; text-align:center;">Network API Error</div>`; }
+        }
+
+        async function fetchThreatLedger() {
+            const feed = document.getElementById("threatFeed");
+            try {
+                const response = await fetch('http://127.0.0.1:8000/blockchain/blocked');
+                const data = await response.json();
+                
+                if (data.chain.length === 0) {
+                    feed.innerHTML = `<div style="text-align:center; color:#555; padding: 40px; font-size:28px;">Network secure. No threats detected.</div>`;
+                    return;
+                }
+
+                feed.innerHTML = data.chain.reverse().map(block => `
+                    <div class="block-card">
+                        <div style="display:flex; justify-content:space-between; align-items: center;">
+                            <span style="color:#ef4444; font-weight:800; font-size: 20px;">🚨 SECURITY INTERCEPT</span>
+                            <span style="color:#A1A1AA; font-size:18px; border: 1px solid #555; padding: 10px 20px; border-radius: 100px;">User: ${block.user_id}</span>
+                        </div>
+                        
+                        <div class="hash-string" style="color:#fca5a5; background:rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3);">
+                            Isolation Hash:<br>QUARANTINE_BLOCK_${block.timestamp}
+                        </div>
+                        
+                        <div class="threat-reason">
+                            <span>⛔ ${block.reason || "Cognitive Behavior Mismatch"}</span>
+                            <span class="badge-risk">AI Risk Score: ${block.risk_score || "99.9"}%</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { feed.innerHTML = `<div style="color:#ef4444; font-size:20px; font-weight:bold; text-align:center;">Network API Error</div>`; }
+        }
+
+        // Auto Refresh
+        fetchSafeLedger();
+        fetchThreatLedger();
+        setInterval(fetchSafeLedger, 3000);
+        setInterval(fetchThreatLedger, 3000);
+    </script>
+</body>
+</html>

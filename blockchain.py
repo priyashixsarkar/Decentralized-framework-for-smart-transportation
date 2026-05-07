@@ -1,6 +1,9 @@
+import os
 from web3 import Web3
 import json
 import time
+
+LEDGER_FILE = "blockchain_ledger.json"
 
 # Mocking the ABI for the TicketingSystem Solidity contract
 # In a real scenario, this is generated after compiling the Solidarity code.
@@ -76,21 +79,64 @@ TICKETING_ABI = json.loads("""
 """)
 
 class EthereumBlockchainManager:
-    def __init__(self, provider_url="http://127.0.0.1:8545"):
+    def __init__(self, provider_url="http://127.0.0.1:7545"):
         self.w3 = Web3(Web3.HTTPProvider(provider_url))
-        self.contract_address = None
+        self.contract_address = "0x224222C7da2329d3d58f11b134C3800b8050ADef"
         self.contract = None
+        self.mock_db = self._load_ledger()
         
         # In a real demo, the user should provide the deployed contract address.
         # For this simulation, we'll try to connect or use a fallback.
         if self.w3.is_connected():
             print(f"Connected to Ethereum at {provider_url}")
-            # Mock address for the simulation
-            self.contract_address = "0x5FbDB2315678afecb367f032d93F642f64180aa3" 
             self.contract = self.w3.eth.contract(address=self.contract_address, abi=TICKETING_ABI)
         else:
-            print("Warning: ETH node not connected. Using Local Mock Simulation.")
-            self.mock_db = {"global": [], "users": {}, "blocked": []}
+            print("Warning: ETH node not connected. Using Local Permanent JSON Simulation.")
+
+
+    def _load_ledger(self):
+        if os.path.exists(LEDGER_FILE):
+            try:
+                with open(LEDGER_FILE, "r") as f:
+                    return json.load(f)
+            except:
+                pass
+                
+        empty_db = {"global": [], "users": {}, "blocked": [], "identities": {}}
+        with open(LEDGER_FILE, "w") as f:
+            json.dump(empty_db, f, indent=4)
+        return empty_db
+
+    def _save_ledger(self):
+        with open(LEDGER_FILE, "w") as f:
+            json.dump(self.mock_db, f, indent=4)
+
+    def record_identity(self, user_id, password):
+        """Mint a new user into the Identity Blockchain layer"""
+        # Ensure identities ledger exists for backwards compatibility 
+        if "identities" not in self.mock_db:
+            self.mock_db["identities"] = {}
+            
+        if user_id in self.mock_db["identities"]:
+            return False # Duplicate identity
+            
+        self.mock_db["identities"][user_id] = {
+            "password": password,
+            "timestamp": time.time(),
+            "status": "Verified"
+        }
+        self._save_ledger()
+        return True
+        
+    def verify_identity(self, user_id, password):
+        """Perform a cryptographic auth check against the Identity Blockchain"""
+        if "identities" not in self.mock_db:
+            return False
+            
+        if user_id in self.mock_db["identities"]:
+            return self.mock_db["identities"][user_id]["password"] == password
+            
+        return False
 
     def record_blocked_transaction(self, user_id, tx_data):
         if self.w3.is_connected() and self.contract:
@@ -99,6 +145,7 @@ class EthereumBlockchainManager:
         else:
             entry = {**tx_data, "user_id": user_id, "timestamp": time.time()}
             self.mock_db["blocked"].append(entry)
+            self._save_ledger()
             return True
 
     def get_blocked_history(self):
@@ -109,9 +156,26 @@ class EthereumBlockchainManager:
 
     def record_transaction(self, user_id, tx_data):
         if self.w3.is_connected() and self.contract:
-            # In a real app, we'd sign and send a transaction.
-            print(f"Blockchain: Calling Smart Contract for {user_id}")
-            # Simplified for demo: return success immediately
+            # Send Real Transaction to Ganache
+            account = self.w3.eth.accounts[0] # Use first free Ganache account
+            amount = int(tx_data.get('amount', 0))
+            
+            print(f"Blockchain: Sending Smart Contract Tx for {user_id}")
+            # Smart Trick: Use the generic string 'txType' field to store the 'date' string securely on-chain
+            # so we don't have to force the user to re-compile their Solidity code for a new column!
+            journey_date = str(tx_data.get('date', 'Unknown'))
+            k
+            tx_hash = self.contract.functions.recordTransaction(
+                user_id,
+                tx_data.get('source', 'Unknown'),
+                tx_data.get('destination', 'Unknown'),
+                amount,
+                journey_date
+            ).transact({'from': account})
+            
+            # Wait for block to be mined
+            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+            print(f"Tx Mined Successfully in Block {receipt.blockNumber}!")
             return True
         else:
             # Mock behavior
@@ -120,12 +184,29 @@ class EthereumBlockchainManager:
             if user_id not in self.mock_db["users"]:
                 self.mock_db["users"][user_id] = []
             self.mock_db["users"][user_id].append(entry)
+            self._save_ledger()
             return True
 
     def get_all_history(self, user_id=None):
         if self.w3.is_connected() and self.contract:
-            # Fetch from Smart Contract
-            return [] # Placeholder for real call
+            # Fetch directly from the Smart Contract!
+            if user_id:
+                raw_txs = self.contract.functions.getUserTransactions(user_id).call()
+            else:
+                raw_txs = self.contract.functions.getGlobalTransactions().call()
+                
+            formatted_txs = []
+            for t in raw_txs:
+                formatted_txs.append({
+                    "user_id": t[0],
+                    "source": t[1],
+                    "destination": t[2],
+                    "amount": t[3],
+                    "timestamp": t[4],
+                    "type": "TICKET_BOOKING",
+                    "date": t[5] if "-" in t[5] else None # Extract the date back from txType field!
+                })
+            return formatted_txs
         else:
             # Fetch from Mock
             if user_id:

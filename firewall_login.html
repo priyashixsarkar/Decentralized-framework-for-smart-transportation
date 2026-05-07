@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Transportation - Firewall Gateway</title>
+    <title>Cognitive Threat Analysis Gateway</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a class="active" href="firewall_login.html">Cognitive Firewall Login</a>
-        <a href="global_ledger.html">Global Blockchain</a>
-        <a href="blocked_ledger.html">Blocked Threats Log</a>
+        <a href="index.html">System Architecture</a>
+        <a class="active" href="firewall_login.html">Firewall Telemetry Interface</a>
+        <a href="global_ledger.html">Decentralized Authorization Registry</a>
+        <a href="blocked_ledger.html">Threat Quarantine Logs</a>
     </div>
 
     <div class="container">
-        <h2>Cognitive Firewall Security Node</h2>
-        <p>Input behavioral transaction data to test the Random Forest Model.</p>
+        <h2>Cognitive Threat Analysis Gateway</h2>
+        <p>Deploy empirical behavioral telemetry vectors into the Random Forest classification engine to evaluate real-time traffic integrity.</p>
         
         <form id="loginForm">
-            <div style="display: flex; gap: 15px;">
-                <div class="form-group" style="flex: 1;"><label>User ID</label><input type="text" id="user_id" value="user_777" required></div>
-                <div class="form-group" style="flex: 1;"><label>Login Hour (0-23)</label><input type="number" id="login_hour" value="10" required></div>
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>User ID Parameter</label><input type="text" id="user_id" value="user_777" required></div>
+                <div class="form-group" style="flex: 1;"><label>Interaction Hour (0-23)</label><input type="number" id="login_hour" value="10" required></div>
             </div>
             
-            <div style="display: flex; gap: 15px;">
-                <div class="form-group" style="flex: 1;"><label>Failed Attempts</label><input type="number" id="failed_attempts" value="0" required></div>
-                <div class="form-group" style="flex: 1;"><label>Device ID</label><input type="number" id="device_id" value="4" required></div>
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Authentication Failures</label><input type="number" id="failed_attempts" value="0" required></div>
+                <div class="form-group" style="flex: 1;"><label>Target Device Signature</label><input type="number" id="device_id" value="4" required></div>
             </div>
             
-            <div style="display: flex; gap: 15px;">
-                <div class="form-group" style="flex: 1;"><label>Location ID</label><input type="number" id="location_id" value="12" required></div>
-                <div class="form-group" style="flex: 1;"><label>Login Freq (Per day)</label><input type="number" id="login_frequency" value="2" required></div>
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Geographic Location ID</label><input type="number" id="location_id" value="12" required></div>
+                <div class="form-group" style="flex: 1;"><label>Daily Operation Frequency</label><input type="number" id="login_frequency" value="2" required></div>
             </div>
 
-            <div style="display: flex; gap: 15px;">
-                <div class="form-group" style="flex: 1;"><label>Time Spent (Sec)</label><input type="number" id="time_spent" value="120" required></div>
-                <div class="form-group" style="flex: 1;"><label>Transaction Amount ($)</label><input type="number" id="transaction_amount" value="350" required></div>
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Session Duration (seconds)</label><input type="number" id="time_spent" value="120" required></div>
+                <div class="form-group" style="flex: 1;"><label>Monetary Engagement ($)</label><input type="number" id="transaction_amount" value="350" required></div>
             </div>
 
-            <button type="submit">Execute Firewall Scan & Initiate Login</button>
+            <button type="submit" class="primary">Execute Behavioral Classification Sequence</button>
         </form>
 
         <div id="resultBox">
-            <i>Awaiting system execution...</i>
+            <i>System is awaiting behavioral payload...</i>
         </div>
     </div>
 
@@ -64,11 +64,11 @@
                 failed_attempts: parseInt(document.getElementById('failed_attempts').value)
             };
 
-            resultBox.innerHTML = "<p>⚙️ <b>Firewall Triggered!</b> Handing telemetry to AI Model...</p>";
+            resultBox.innerHTML = "<p>⚙️ <b>Firewall Mechanism Engaged!</b> Transferring payload to ML node...</p>";
             await sleep(600);
-            resultBox.innerHTML += "<p>🔍 <i>Analyzing Location, Device, and Request Parameters...</i></p>";
+            resultBox.innerHTML += "<p>🔍 <i>Computing feature scaling algorithms against 7 behavioral parameters...</i></p>";
             await sleep(800);
-            resultBox.innerHTML += "<p>⚖️ <i>Running Random Forest... Computing Malicious Risk Scenario...</i></p>";
+            resultBox.innerHTML += "<p>⚖️ <i>Executing Random Forest matrix... Deriving probability distribution...</i></p>";
             await sleep(1000);
 
             try {
@@ -82,20 +82,20 @@
 
                 if (response.ok) {
                     resultBox.innerHTML += `
-                        <hr style="margin: 10px 0;">
-                        <p class="success">✅ VERDICT SAFE: ${data.message}</p>
-                        <p><b>Blockchain:</b> ${data.blockchain_status}</p>
+                        <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
+                        <p class="success">✅ AUTHORIZATION SAFE: ${data.message}</p>
+                        <p><b>Ledger Synchronization:</b> ${data.blockchain_status}</p>
                     `;
                 } else {
                     resultBox.innerHTML += `
-                        <hr style="margin: 10px 0;">
-                        <p class="error">🚨 VERDICT SUSPICIOUS: ${data.detail}</p>
-                        <p><b>Action:</b> Malicious user IP blocked. Threat logged to security blockchain.</p>
+                        <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
+                        <p class="error">🚨 ANOMALY ISOLATED: ${data.detail}</p>
+                        <p><b>Security Action Required:</b> Explicit threat rejected. Metadata committed to quarantine blockchain.</p>
                     `;
                 }
 
             } catch (error) {
-                resultBox.innerHTML = `<p class="error">Backend connection completely failed! Is main.py running?</p>`;
+                resultBox.innerHTML = `<p class="error">System Infrastructure Offline. Backend FastAPI node not responding.</p>`;
             }
         });
     </script>

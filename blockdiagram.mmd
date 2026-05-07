@@ -1,0 +1,6 @@
+graph LR
+    classDef block fill:#ffffff,stroke:#000000,stroke-width:2px;
+
+    Raw[Raw Behavioral Dataset]:::block --> Prep[Data Preprocessor]:::block
+    Prep --> ML[Random Forest Classifier]:::block
+    ML --> Output[Risk Classification Result]:::block

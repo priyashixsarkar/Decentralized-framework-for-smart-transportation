@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Transportation - Blocked Threats</title>
+    <title>Quarantined Threat Activity Ledger</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Red theme overrides for the danger zone */
-        .container {
-            border-top: 5px solid #d9534f;
-        }
-        h2 { color: #d9534f; }
-        table th { background-color: #f2dede; color: #a94442; border-color: #ebccd1; }
-    </style>
 </head>
 <body onload="loadBlockedBlockchain()">
 
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="firewall_login.html">Cognitive Firewall Login</a>
-        <a href="global_ledger.html">Global Blockchain</a>
-        <a class="active" href="blocked_ledger.html" style="background-color: #d9534f; color: white;">Blocked Threats Log</a>
+        <a href="index.html">System Architecture</a>
+        <a href="firewall_login.html">Firewall Telemetry Interface</a>
+        <a href="global_ledger.html">Decentralized Authorization Registry</a>
+        <a class="active" href="blocked_ledger.html">Threat Quarantine Logs</a>
     </div>
 
-    <div class="container">
-        <h2>⚠️ Blocked Transgressions Blockchain</h2>
-        <p>This immutable ledger stores the permanent record of malicious actors and hackers explicitly isolated by the Cognitive Firewall.</p>
+    <div class="container" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.1);">
+        <h2 style="color: #fca5a5;">⚠️ Quarantined Threat Activity Ledger</h2>
+        <p style="font-size: 1.25rem; color: #A1A1AA;">This automated registry provides permanent, cryptographic immutability records detailing explicitly intercepted cyber-threats and unauthorized access behaviors isolated by the artificial intelligence model.</p>
         
-        <button type="button" onclick="loadBlockedBlockchain()" style="background-color: #c9302c; width: auto; margin-bottom: 20px;">Refresh Quarantine Chain</button>
-        <p id="blockedCount" style="font-weight: bold; color: red;">Total Critical Threats Captured: 0</p>
+        <button type="button" onclick="loadBlockedBlockchain()" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; width: auto; margin-bottom: 25px; border: 1px solid rgba(239, 68, 68, 0.4);">Refresh Quarantine State</button>
+        <p id="blockedCount" style="font-size: 1.5rem; font-weight: 600; color: #ef4444; margin-bottom: 20px;">Critical Anomalies Captured: 0</p>
         
         <table>
             <thead>
                 <tr>
-                    <th>Malicious User ID</th>
+                    <th>Malicious Identifier</th>
                     <th>Violation Category</th>
-                    <th>Compromised Vector</th>
+                    <th>Forensic Vector Data</th>
                     <th>Incident Timestamp</th>
                 </tr>
             </thead>
             <tbody id="blockedTableBody">
-                <tr><td colspan="4" style="text-align: center;">Executing Smart Contract Request...</td></tr>
+                <tr><td colspan="4" style="text-align: center;">Establishing connection to Smart Contract...</td></tr>
             </tbody>
         </table>
     </div>
@@ -52,10 +44,10 @@
                 const response = await fetch('http://127.0.0.1:8000/blockchain/blocked');
                 const result = await response.json();
                 
-                countText.innerText = `Total Critical Threats Captured: ${result.count}`;
+                countText.innerText = `Critical Anomalies Captured: ${result.count}`;
                 
                 if (result.count === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No malicious anomalies intercepted yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No malicious anomalies intercepted in the current state array.</td></tr>';
                     return;
                 }
 
@@ -64,16 +56,16 @@
                     const row = document.createElement('tr');
                     let timeStr = new Date(record.timestamp * 1000).toLocaleString();
                     row.innerHTML = `
-                        <td style="color: #c9302c;"><b>${record.user_id}</b></td>
-                        <td style="color: #c9302c;"><b>${record.type}</b></td>
-                        <td>Loc: ${record.location_id || 'N/A'}, Dev: ${record.device_id || 'N/A'}, Fails: ${record.failed_attempts || 0}</td>
-                        <td style="color: #888;">${timeStr}</td>
+                        <td style="color: #fca5a5;"><b>${record.user_id}</b></td>
+                        <td style="color: #ef4444;"><b>${record.type}</b></td>
+                        <td style="color: #cbd5e1;">Geo-Node: ${record.location_id || 'N/A'}, Hard-Sig: ${record.device_id || 'N/A'}, Intrusions: ${record.failed_attempts || 'Unknown'}</td>
+                        <td style="color: #94a3b8;">${timeStr}</td>
                     `;
                     tbody.appendChild(row);
                 });
 
             } catch (error) {
-                tbody.innerHTML = `<tr><td colspan="4" class="error">Security Analytics Disconnected. Is Python running?</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="error">Security Analytics Disconnected. Internal server error.</td></tr>`;
             }
         }
     </script>
