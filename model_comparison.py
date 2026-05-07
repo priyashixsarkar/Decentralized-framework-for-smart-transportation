@@ -12,8 +12,9 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.impute import SimpleImputer
 import joblib
 
-# Set modern style
-plt.style.use('dark_background')
+# Set modern light style for research paper
+plt.style.use('default')
+sns.set_theme(style="whitegrid")
 
 # 1. LOAD RAW DATASET (16,000 samples)
 df = pd.read_csv('raw_user_behavior_dataset.csv')
