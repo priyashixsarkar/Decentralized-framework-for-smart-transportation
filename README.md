@@ -1,4 +1,4 @@
-# Global Transit Security Architecture 🛡️
+# Global Transit Security Architecture
 
 A master-level security framework integrating **Machine Learning** for real-time behavioral anomaly detection, backed by an immutable **Ethereum Blockchain** to ensure data integrity and transparency.
 
@@ -6,7 +6,7 @@ This project implements a **Zero-Trust Architecture** for a transit and ticketin
 
 ---
 
-## 🔄 System Flow
+## System Flow
 
 ```mermaid
 sequenceDiagram
@@ -32,7 +32,7 @@ sequenceDiagram
 
 ---
 
-## 🏗️ Detailed Component Architecture
+## Detailed Component Architecture
 
 The system is decoupled into three major components:
 
@@ -57,7 +57,7 @@ The system is decoupled into three major components:
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 /
@@ -87,7 +87,7 @@ The system is decoupled into three major components:
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 *   **Behavioral Threat Detection:** Evaluates login frequency, transaction amount, OS type, VPN usage, and request rate to stop anomalous behavior.
 *   **Cryptographic Passwords:** All user credentials are computationally hashed using `bcrypt` before reaching the ledger.
@@ -96,7 +96,7 @@ The system is decoupled into three major components:
 
 ---
 
-## 💻 Getting Started
+## Getting Started
 
 ### Prerequisites
 *   Python 3.9+
@@ -142,7 +142,7 @@ python -m http.server 8080
 
 ---
 
-## 📡 Core API Endpoints
+## Core API Endpoints
 
 Interactive Swagger documentation is available at **`http://localhost:8000/docs`** while the server is running.
 
