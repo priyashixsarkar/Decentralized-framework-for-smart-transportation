@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ai-transport-firewall
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: PROVIDER_URL
+        value: http://127.0.0.1:7545
+      - key: CONTRACT_ADDRESS
+        value: 0x224222C7da2329d3d58f11b134C3800b8050ADef

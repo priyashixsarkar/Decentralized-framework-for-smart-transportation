@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognitive Threat Analysis Gateway</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html">System Architecture</a>
+        <a class="active" href="firewall_login.html">Firewall Telemetry Interface</a>
+        <a href="global_ledger.html">Decentralized Authorization Registry</a>
+        <a href="blocked_ledger.html">Threat Quarantine Logs</a>
+    </div>
+
+    <div class="container">
+        <h2>Cognitive Threat Analysis Gateway</h2>
+        <p>Deploy empirical behavioral telemetry vectors into the Random Forest classification engine to evaluate real-time traffic integrity.</p>
+        
+        <form id="loginForm">
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>User ID Parameter</label><input type="text" id="user_id" value="user_777" required></div>
+                <div class="form-group" style="flex: 1;"><label>Interaction Hour (0-23)</label><input type="number" id="login_hour" value="10" required></div>
+            </div>
+            
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Authentication Failures</label><input type="number" id="failed_attempts" value="0" required></div>
+                <div class="form-group" style="flex: 1;"><label>Target Device Signature</label><input type="number" id="device_id" value="4" required></div>
+            </div>
+            
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Geographic Location ID</label><input type="number" id="location_id" value="12" required></div>
+                <div class="form-group" style="flex: 1;"><label>Daily Operation Frequency</label><input type="number" id="login_frequency" value="2" required></div>
+            </div>
+
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;"><label>Session Duration (seconds)</label><input type="number" id="time_spent" value="120" required></div>
+                <div class="form-group" style="flex: 1;"><label>Monetary Engagement ($)</label><input type="number" id="transaction_amount" value="350" required></div>
+            </div>
+
+            <button type="submit" class="primary">Execute Behavioral Classification Sequence</button>
+        </form>
+
+        <div id="resultBox">
+            <i>System is awaiting behavioral payload...</i>
+        </div>
+    </div>
+
+    <script>
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultBox = document.getElementById('resultBox');
+            
+            const payload = {
+                user_id: document.getElementById('user_id').value,
+                login_hour: parseInt(document.getElementById('login_hour').value),
+                login_frequency: parseInt(document.getElementById('login_frequency').value),
+                location_id: parseInt(document.getElementById('location_id').value),
+                device_id: parseInt(document.getElementById('device_id').value),
+                transaction_amount: parseFloat(document.getElementById('transaction_amount').value),
+                time_spent: parseFloat(document.getElementById('time_spent').value),
+                failed_attempts: parseInt(document.getElementById('failed_attempts').value)
+            };
+
+            resultBox.innerHTML = "<p>⚙️ <b>Firewall Mechanism Engaged!</b> Transferring payload to ML node...</p>";
+            await sleep(600);
+            resultBox.innerHTML += "<p>🔍 <i>Computing feature scaling algorithms against 7 behavioral parameters...</i></p>";
+            await sleep(800);
+            resultBox.innerHTML += "<p>⚖️ <i>Executing Random Forest matrix... Deriving probability distribution...</i></p>";
+            await sleep(1000);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultBox.innerHTML += `
+                        <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
+                        <p class="success">✅ AUTHORIZATION SAFE: ${data.message}</p>
+                        <p><b>Ledger Synchronization:</b> ${data.blockchain_status}</p>
+                    `;
+                } else {
+                    resultBox.innerHTML += `
+                        <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
+                        <p class="error">🚨 ANOMALY ISOLATED: ${data.detail}</p>
+                        <p><b>Security Action Required:</b> Explicit threat rejected. Metadata committed to quarantine blockchain.</p>
+                    `;
+                }
+
+            } catch (error) {
+                resultBox.innerHTML = `<p class="error">System Infrastructure Offline. Backend FastAPI node not responding.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

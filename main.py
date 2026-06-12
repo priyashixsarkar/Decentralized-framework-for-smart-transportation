@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import joblib
 import pandas as pd
 import numpy as np
@@ -64,9 +65,7 @@ class AuthRequest(BaseModel):
     user_id: str
     password: str
 
-@app.get("/")
-def home():
-    return {"message": "Secure AI-Blockchain Ticketing System API"}
+
 
 # Centralized User DB has been officially deprecated.
 # All user identities are now strictly minted onto the Identity Blockchain Ledger.
@@ -207,6 +206,9 @@ async def get_global_history():
 async def get_blocked_history():
     history = bm.get_blocked_history()
     return {"chain": history, "count": len(history)}
+
+# Serve all static files (HTML, CSS) from the frontend folder
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
