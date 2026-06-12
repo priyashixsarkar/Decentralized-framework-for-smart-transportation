@@ -10,3 +10,4 @@ pydantic
 numpy
 bcrypt
 python-dotenv
+web3
