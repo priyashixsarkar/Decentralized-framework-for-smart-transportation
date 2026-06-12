@@ -9,7 +9,7 @@ contract TicketingSystem {
         string destination;
         uint256 amount;
         uint256 timestamp;
-        string txType;
+        string journeyDate;
     }
     
     // Global ledger to store all ticket bookings
@@ -27,7 +27,7 @@ contract TicketingSystem {
         string memory _source,
         string memory _destination,
         uint256 _amount,
-        string memory _txType
+        string memory _journeyDate
     ) public {
         
         // Create the transaction block
@@ -37,7 +37,7 @@ contract TicketingSystem {
             destination: _destination,
             amount: _amount,
             timestamp: block.timestamp, // Uses the Blockchain's internal clock
-            txType: _txType
+            journeyDate: _journeyDate
         });
         
         // Save to Global Ledger

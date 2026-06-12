@@ -2,6 +2,10 @@ import os
 from web3 import Web3
 import json
 import time
+import bcrypt
+from dotenv import load_dotenv
+
+load_dotenv()
 
 LEDGER_FILE = "blockchain_ledger.json"
 
@@ -26,7 +30,7 @@ TICKETING_ABI = json.loads("""
 			{ "internalType": "string", "name": "_source", "type": "string" },
 			{ "internalType": "string", "name": "_destination", "type": "string" },
 			{ "internalType": "uint256", "name": "_amount", "type": "uint256" },
-			{ "internalType": "string", "name": "_txType", "type": "string" }
+			{ "internalType": "string", "name": "_journeyDate", "type": "string" }
 		],
 		"name": "recordTransaction",
 		"outputs": [],
@@ -44,7 +48,7 @@ TICKETING_ABI = json.loads("""
 					{ "internalType": "string", "name": "destination", "type": "string" },
 					{ "internalType": "uint256", "name": "amount", "type": "uint256" },
 					{ "internalType": "uint256", "name": "timestamp", "type": "uint256" },
-					{ "internalType": "string", "name": "txType", "type": "string" }
+					{ "internalType": "string", "name": "journeyDate", "type": "string" }
 				],
 				"internalType": "struct TicketingSystem.Transaction[]",
 				"name": "",
@@ -65,7 +69,7 @@ TICKETING_ABI = json.loads("""
 					{ "internalType": "string", "name": "destination", "type": "string" },
 					{ "internalType": "uint256", "name": "amount", "type": "uint256" },
 					{ "internalType": "uint256", "name": "timestamp", "type": "uint256" },
-					{ "internalType": "string", "name": "txType", "type": "string" }
+					{ "internalType": "string", "name": "journeyDate", "type": "string" }
 				],
 				"internalType": "struct TicketingSystem.Transaction[]",
 				"name": "",
@@ -79,9 +83,11 @@ TICKETING_ABI = json.loads("""
 """)
 
 class EthereumBlockchainManager:
-    def __init__(self, provider_url="http://127.0.0.1:7545"):
+    def __init__(self, provider_url=None):
+        if provider_url is None:
+            provider_url = os.getenv("PROVIDER_URL", "http://127.0.0.1:7545")
         self.w3 = Web3(Web3.HTTPProvider(provider_url))
-        self.contract_address = "0x224222C7da2329d3d58f11b134C3800b8050ADef"
+        self.contract_address = os.getenv("CONTRACT_ADDRESS", "0x224222C7da2329d3d58f11b134C3800b8050ADef")
         self.contract = None
         self.mock_db = self._load_ledger()
         
@@ -120,8 +126,9 @@ class EthereumBlockchainManager:
         if user_id in self.mock_db["identities"]:
             return False # Duplicate identity
             
+        hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         self.mock_db["identities"][user_id] = {
-            "password": password,
+            "password": hashed_pw,
             "timestamp": time.time(),
             "status": "Verified"
         }
@@ -134,7 +141,8 @@ class EthereumBlockchainManager:
             return False
             
         if user_id in self.mock_db["identities"]:
-            return self.mock_db["identities"][user_id]["password"] == password
+            stored_hash = self.mock_db["identities"][user_id]["password"]
+            return bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
             
         return False
 
@@ -161,10 +169,7 @@ class EthereumBlockchainManager:
             amount = int(tx_data.get('amount', 0))
             
             print(f"Blockchain: Sending Smart Contract Tx for {user_id}")
-            # Smart Trick: Use the generic string 'txType' field to store the 'date' string securely on-chain
-            # so we don't have to force the user to re-compile their Solidity code for a new column!
             journey_date = str(tx_data.get('date', 'Unknown'))
-            k
             tx_hash = self.contract.functions.recordTransaction(
                 user_id,
                 tx_data.get('source', 'Unknown'),
@@ -204,7 +209,7 @@ class EthereumBlockchainManager:
                     "amount": t[3],
                     "timestamp": t[4],
                     "type": "TICKET_BOOKING",
-                    "date": t[5] if "-" in t[5] else None # Extract the date back from txType field!
+                    "date": t[5]
                 })
             return formatted_txs
         else:

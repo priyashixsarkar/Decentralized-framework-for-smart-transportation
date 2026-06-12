@@ -12,14 +12,13 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.impute import SimpleImputer
 import joblib
 
-# Set modern light style for research paper
 plt.style.use('default')
 sns.set_theme(style="whitegrid")
 
-# 1. LOAD RAW DATASET (16,000 samples)
+# 1. LOAD RAW DATASET 
 df = pd.read_csv('raw_user_behavior_dataset.csv')
 
-# 2. DATA PREPROCESSING (Teacher Requirement)
+# 2. DATA PREPROCESSING
 # A. Handling Missing Values (Imputation)
 # We use the Median because it is robust to outliers.
 imputer = SimpleImputer(strategy='median')
